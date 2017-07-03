@@ -25,4 +25,4 @@ class Skus(models.Model):
 class Menu(models.Model):
     name = models.CharField(max_length=100)
     categories = JSONField()
-    parent = models.CharField
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, default="")
