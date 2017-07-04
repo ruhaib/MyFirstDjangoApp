@@ -4,9 +4,9 @@ from django.db import models
 
 class Product(models.Model):
     product_name = models.CharField(max_length=250)
-    product_id = models.CharField(max_length=50, default="")
+    product_id = models.CharField(max_length=50)
     source_url = models.URLField()
-    category = models.CharField(max_length=100, null=True)
+    category = JSONField(null=True)
 
 
 class Images(models.Model):
@@ -25,4 +25,4 @@ class Skus(models.Model):
 class Menu(models.Model):
     name = models.CharField(max_length=100)
     categories = JSONField()
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, default="")
+    parent = models.ForeignKey("self", on_delete=models.CASCADE)

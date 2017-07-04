@@ -1,7 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Product, Images, Skus
-import pandas
+from .models import Product
+from django.views.generic import ListView, DetailView
+import ast
 
 
 def display_data(request):
@@ -9,39 +9,23 @@ def display_data(request):
     return render(request, 'marcjacobsapp/index.html', {'products': products})
 
 
-def load_scrappy_data(request):
-    scrapped_data = pandas.read_json(
-        '/home/ruhaib/py3Scrapy/tutorial/marcjacobs.json')
+class ListProductView(ListView):
 
-    # products = []
-    # images_list = []
-    # skus_list = []
-    for index, row in scrapped_data.iterrows():
-        prod = Product()
-        prod.product_id = row['product_id']
-        prod.product_name = row['product_name']
-        prod.category = row['product_category']
-        prod.source_url = row['source_url']
-        prod.save()
-        # products.add(prod)
-        for img in row['images']:
-            images = Images()
-            images.product = prod
-            images.image_url = img
+    model = Product
+    template_name = 'marcjacobsapp/home.html'
 
-            images.save()
-            # images_list.append(images)
-        for sku in row['skus']:
-            prod_sku = Skus()
-            prod_sku.product = prod
-            prod_sku.color = sku['color']
-            prod_sku.availability = sku['availability']
-            prod_sku.price = sku['price']
-            prod_sku.size = sku['size']
-            prod_sku.save()
-            # skus_list.append(prod_sku)
 
-    # Product.objects.bulk_create(products)
-    # Images.objects.bulk_create(images_list)
-    # Skus.objects.bulk_create(skus_list)
-    return HttpResponse('<h1 style="text-align:center"> data loaded ... </h1>')
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'marcjacobsapp/product.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetailView, self).get_context_data(**kwargs)
+        context['category'] = ast.literal_eval(context['product'].category)
+        context['colors'] = set()
+        context['sizes'] = set()
+        prod = context['product']
+        for color in prod.skus_set.all():
+            context['colors'].add(color.color)
+            context['sizes'].add(color.size)
+        return context
