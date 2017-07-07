@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.views import View
 from django.contrib.auth import login, logout, authenticate
-
+from django.utils.http import is_safe_url
 from .forms import UserCreationForm, LoginForm
 
 
@@ -64,7 +64,14 @@ class LoginView(View):
             if user:
                 if user.is_active:
                     login(self.request, user)
-                    return redirect(reverse('super_store:brands'))
+                    redirect_to = request.GET.get('next', '')
+                    print(redirect_to)
+                    if is_safe_url(url=redirect_to, host=request.get_host()):
+                        return redirect(redirect_to)
+                    else:
+                        return render(self.request, redirect_to,
+                                      {'error': message, 'form': form})
+
                 else:
                     message = Message.LOGIN_DISABLED
             else:
