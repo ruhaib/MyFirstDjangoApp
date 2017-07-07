@@ -7,13 +7,21 @@
     <title>{% block title %}MarcJacobs Products{% endblock %}</title>
 </head>
 <body>
-    {% block content-title %}
-        <h1 style="text-align:center">MarcJacobs reknowned products.</h1>
+    <h1 style="text-align:center">
+        {% block content-title %}
+            MarcJacobs reknowned products.
+        {% endblock %}
+    </h1>
+
+    {% block logout %}
+        <div class="pull-right">
+            <button onclick="location.href='{% url 'authentication:logout' %}'" type="button" class="btn btn-lg btn-info">logout</button>
+        </div>
+        {% block content-body %}
+
+        {% endblock  %}
+
     {% endblock %}
-
-    {% block content-body %}
-
-    {% endblock  %}
 
     {% block footer %}
     <hr>

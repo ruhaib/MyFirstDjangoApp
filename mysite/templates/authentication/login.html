@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+{% block title %}
+    Login
+{% endblock  %}
+
+{% block content-title %}
+    Login to view reknowned products
+{% endblock %}
+
+{% block logout %}
+    {{error}}
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+            {{ form.as_p }}
+            <tr>
+
+                <td><input type="submit" value="Login" name="login"></td>
+                <td>
+                <button
+                onClick="location.href='{% url 'authentication:signup' %}'"
+                type="button">Signup</button></td>
+            </tr>
+    </form>
+{% endblock  %}

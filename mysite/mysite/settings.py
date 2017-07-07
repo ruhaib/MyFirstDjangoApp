@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "authentication.CustomUser"
+
+AUTHENTICATION_BACKENDS = ('authentication.backends.CustomUserAuth',)
 
 # Application definition
 
@@ -37,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'marcjacobs.apps.MarcjacobsConfig',
+    'super_store.apps.SuperStoreConfig',
+    'authentication.apps.AuthenticationConfig',
 ]
 
 MIDDLEWARE = [

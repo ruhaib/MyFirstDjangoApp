@@ -1,0 +1,96 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Django",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "pythonPath": "/home/ruhaib/mysite_project/env_mysite/bin/python3",
+            "program": "${workspaceRoot}/mysite/manage.py",
+            "args": [
+                "runserver",
+                "--no-color",
+                "--noreload"
+            ],
+            "debugOptions": [
+                "WaitOnAbnormalExit",
+                "WaitOnNormalExit",
+                "RedirectOutput",
+                "DjangoDebugging"
+            ]
+        },
+        {
+            "name": "Flask",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "pythonPath": "${config:python.pythonPath}",
+            "program": "fully qualified path fo 'flask' executable. Generally located along with python interpreter",
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "FLASK_APP": "${workspaceRoot}/quickstart/app.py"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload"
+            ],
+            "envFile": "${workspaceRoot}/.env",
+            "debugOptions": [
+                "WaitOnAbnormalExit",
+                "WaitOnNormalExit",
+                "RedirectOutput"
+            ]
+        },
+        {
+            "name": "Flask (old)",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "pythonPath": "${config:python.pythonPath}",
+            "program": "${workspaceRoot}/run.py",
+            "cwd": "${workspaceRoot}",
+            "args": [],
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "debugOptions": [
+                "WaitOnAbnormalExit",
+                "WaitOnNormalExit",
+                "RedirectOutput"
+            ]
+        },
+
+        {
+            "name": "Watson",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": true,
+            "pythonPath": "${config:python.pythonPath}",
+            "program": "${workspaceRoot}/console.py",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "dev",
+                "runserver",
+                "--noreload=True"
+            ],
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "debugOptions": [
+                "WaitOnAbnormalExit",
+                "WaitOnNormalExit",
+                "RedirectOutput"
+            ]
+        },
+        {
+            "name": "Attach (Remote Debug)",
+            "type": "python",
+            "request": "attach",
+            "localRoot": "${workspaceRoot}",
+            "remoteRoot": "${workspaceRoot}",
+            "port": 3000,
+            "secret": "my_secret",
+            "host": "localhost"
+        }
+    ]
+}
