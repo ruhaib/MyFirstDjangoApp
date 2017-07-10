@@ -65,7 +65,6 @@ class LoginView(View):
                 if user.is_active:
                     login(self.request, user)
                     redirect_to = request.GET.get('next', '')
-                    print(redirect_to)
                     if is_safe_url(url=redirect_to, host=request.get_host()):
                         return redirect(redirect_to)
                     else:

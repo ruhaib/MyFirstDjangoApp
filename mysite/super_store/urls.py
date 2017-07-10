@@ -12,5 +12,5 @@ urlpatterns = [
         views.ListBrandProductsView.as_view(),
         name="brand-products-list"),
     url(r'^products/(?P<pk>[0-9]+)$', views.ProductDetailView.as_view(),
-        name="product-detail")
+        name="product-detail"),
 ]
