@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Brand, Product
 from django.views.generic import ListView, DetailView
 import ast
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,8 +26,11 @@ class ListBrandProductsView(LoginRequiredMixin, ListView):
     template_name = 'super_store/product_list.html'
 
     def get_queryset(self):
-        return self.model.objects.get(
-                                    name=self.kwargs['name']).product_set.all()
+        try:
+            return self.model.objects.get(
+                name=self.kwargs['name']).product_set.all()
+        except:
+            raise Http404("Brand name: {} does not exist".format(self.kwargs['name']))
 
     def get_context_data(self, **kwargs):
         context = super(ListBrandProductsView, self).get_context_data(**kwargs)

@@ -65,12 +65,14 @@ class LoginView(View):
                 if user.is_active:
                     login(self.request, user)
                     redirect_to = request.GET.get('next', '')
-                    if is_safe_url(url=redirect_to, host=request.get_host()):
-                        return redirect(redirect_to)
+                    if redirect_to != '':
+                        if is_safe_url(url=redirect_to, host=request.get_host()):
+                            return redirect(redirect_to)
+                        else:
+                            return render(self.request, redirect_to,
+                                          {'error': message, 'form': form})
                     else:
-                        return render(self.request, redirect_to,
-                                      {'error': message, 'form': form})
-
+                        return redirect(reverse('super_store:brands'))
                 else:
                     message = Message.LOGIN_DISABLED
             else:

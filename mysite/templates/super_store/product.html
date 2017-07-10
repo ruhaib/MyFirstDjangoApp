@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 
+{% block product %}
+    <li class="active">
+        <a href="{% url 'super_store:all-products' %}">{{product.product_id}}</a>
+    </li>
+{% endblock %}
+
+
 {% block content-body %}
     <ol class="breadcrumb">
         {% for item in category %}

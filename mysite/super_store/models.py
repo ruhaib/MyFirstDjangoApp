@@ -1,10 +1,18 @@
 from django.db import models
+from django.utils import timezone
+from django.utils.html import mark_safe
 
 
 class Brand(models.Model):
     name = models.CharField(max_length=200, unique=True)
     brand_link = models.URLField()
-    image_icon = models.URLField()
+    image_icon = models.ImageField()
+
+    def image_tag(self):
+        return mark_safe('<img src="/media/{}" width="150" height="150"/>'\
+                         .format(self.image_icon))
+
+    image_tag.short_description = 'Image'
 
     def __str__(self):
         return self.name
@@ -12,10 +20,16 @@ class Brand(models.Model):
 
 class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    product_name = models.CharField(max_length=250)
-    product_id = models.CharField(max_length=50)
+    product_name = models.CharField(max_length=250, verbose_name="Name")
+    product_id = models.CharField(max_length=50, verbose_name="Product ID")
     source_url = models.URLField()
     category = models.CharField(max_length=500, null=True, blank=True)
+    entry_date = models.DateField(
+        default=timezone.now,
+        verbose_name='Add Date')
+    update_date = models.DateField(
+        default=timezone.now,
+        verbose_name='Update Date')
 
     def __str__(self):
         return self.product_id+' '+self.product_name

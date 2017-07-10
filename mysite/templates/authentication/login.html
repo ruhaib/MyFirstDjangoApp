@@ -8,7 +8,10 @@
     Login to view reknowned products
 {% endblock %}
 
-{% block logout %}
+{% block navbar-not-on-logout %}{% endblock  %}
+{% block navbar-logout %}{% endblock  %}
+
+{% block content-body %}
     {{error}}
 
     {% if form.errors %}
